@@ -40,12 +40,7 @@ export function activate(context: vscode.ExtensionContext) {
 		// Display a message box to the user
     let arg = args[0] as string;
     let value: boolean | 'toggle' = arg == 'toggle' ? arg : arg == 'false' ? false : true;
-    let config = vscode.workspace.getConfiguration(ext);
-    const inGlobs: string[] | undefined = config.get("include");
-    console.log("markReadOnly.include:", inGlobs);
-    const exGlobs: string[] | undefined = config.get("exclude");
-    console.log("markReadOnly.exclude:", exGlobs);
-    vscode.window.showInformationMessage('setReadOnly!');
+    vscode.window.showInformationMessage('setReadOnly! '+value);
     vscode.window.activeTextEditor && setReadOnly(vscode.window.activeTextEditor.document, value);
 	});
 	let disposable2 = vscode.commands.registerCommand('markreadonly.setWriteable', () => {
