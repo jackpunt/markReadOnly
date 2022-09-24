@@ -35,16 +35,18 @@ export function activate(context: vscode.ExtensionContext) {
 	// Now provide the implementation of the command with registerCommand
 	// The commandId parameter must match the command field in package.json
 
-	let disposable1 = vscode.commands.registerCommand('markreadonly.setReadonly', () => {
+	let disposable1 = vscode.commands.registerCommand('markreadonly.setReadonly', (...args) => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
+    let arg = args[0] as string;
+    let value: boolean | 'toggle' = arg == 'toggle' ? arg : arg == 'false' ? false : true;
     let config = vscode.workspace.getConfiguration(ext);
     const inGlobs: string[] | undefined = config.get("include");
     console.log("markReadOnly.include:", inGlobs);
     const exGlobs: string[] | undefined = config.get("exclude");
     console.log("markReadOnly.exclude:", exGlobs);
     vscode.window.showInformationMessage('setReadOnly!');
-    vscode.window.activeTextEditor && setReadOnly(vscode.window.activeTextEditor.document, true);
+    vscode.window.activeTextEditor && setReadOnly(vscode.window.activeTextEditor.document, value);
 	});
 	let disposable2 = vscode.commands.registerCommand('markreadonly.setWriteable', () => {
 		vscode.window.showInformationMessage('setWriteable!');
@@ -92,6 +94,7 @@ export function activate(context: vscode.ExtensionContext) {
   function setEditorReadOnly(editor: vscode.TextEditor, value: boolean | 'toggle' = true) {
     editor.options.readOnly = (value == 'toggle') ? !editor.options.readOnly : value;
     console.log(editor.document.fileName +": readOnly="+editor.options.readOnly);
+    vscode.CodeAction
     //let model = (editor as editorBrowser.ICodeEditor).getModel();
     //model.updateOptions({ readOnly: value });
 
