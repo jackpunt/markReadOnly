@@ -8,6 +8,6 @@
     },
     // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
     "typescript.tsc.autoDetect": "off",
-    "markReadOnly.include": [ "**/*.txt", "**/settings.json", "/settings/folder"],
+    "markReadOnly.include": [ "foo", "**/*.txt", "**/settings.json"],
     "markReadOnly.exclude": [ "exl1", "exc2"]
 }

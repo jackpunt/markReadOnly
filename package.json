@@ -2,7 +2,7 @@
   "name": "markreadonly",
   "displayName": "MarkReadOnly",
   "description": "Mark selected files as ReadOnly",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.71.0"
   },
@@ -13,32 +13,42 @@
     "onStartupFinished"
   ],
   "main": "./out/markReadOnly.js",
+  "keywords": ["ReadOnly"],
   "contributes": {
     "commands": [
       {
         "command": "markreadonly.setWriteable",
-        "title": "setWriteable"
+        "title": "set Writeable"
       },
       {
         "command": "markreadonly.setReadonly",
-        "title": "setReadOnly"
+        "title": "set ReadOnly"
+      },
+      {
+        "command": "markreadonly.toggleReadonly",
+        "title": "toggle ReadOnly"
       }
     ],
-    "properties": {
-      "markReadOnly.include": {
-        "description": "Globs to mark as read-only",
-        "type": "array",
-        "items": {
-          "type": "string",
-          "default": null
-        }
-      },
-      "markReadOnly.exclude": {
-        "description": "Globs to *not* mark as read-only",
-        "type": "array",
-        "items": {
-          "type": "string",
-          "default": null
+    "configuration": {
+      "title": "MarkReadOnly",
+      "properties": {
+        "markReadOnly.include": {
+          "description": "Globs to mark as read-only",
+          "type": "array",
+          "default": null,
+          "items": {
+            "type": "string",
+            "default": null
+          }
+        },
+        "markReadOnly.exclude": {
+          "description": "Globs to *not* mark as read-only",
+          "type": "array",
+          "default": null,
+          "items": {
+            "type": "string",
+            "default": null
+          }
         }
       }
     }

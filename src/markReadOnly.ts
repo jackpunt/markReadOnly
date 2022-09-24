@@ -5,6 +5,16 @@ import * as vscode from 'vscode';
 
 // TODO: watch for ConfigurationChangeEvent(evt) with evt.affectsConfiguration(ext)
 
+// https://github.com/microsoft/vscode/issues/33823
+
+// const myProvider = new (class implements vscode.TextDocumentContentProvider {
+//   provideTextDocumentContent(uri: vscode.Uri): string {
+//     // invoke cowsay, use uri-path as text
+//     return cowsay.say({ text: uri.path });
+//   }
+// })();
+
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -15,6 +25,11 @@ export function activate(context: vscode.ExtensionContext) {
   // console.log("inspect=", inspect, "has.markReadOnly=", allconfig.has(ext));
   // let config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration(ext);
   // });
+  // vscode.workspace.registerTextDocumentContentProvider(ext, myProvider);
+
+  //Create output channel
+  let orange = vscode.window.createOutputChannel("Orange");
+  orange.show();
 
   // The command has been defined in the package.json file
 	// Now provide the implementation of the command with registerCommand
@@ -29,14 +44,16 @@ export function activate(context: vscode.ExtensionContext) {
     const exGlobs: string[] | undefined = config.get("exclude");
     console.log("markReadOnly.exclude:", exGlobs);
     vscode.window.showInformationMessage('setReadOnly!');
-    vscode.window.activeTextEditor && setReadOnly(vscode.window.activeTextEditor.document);
+    vscode.window.activeTextEditor && setReadOnly(vscode.window.activeTextEditor.document, true);
 	});
 	let disposable2 = vscode.commands.registerCommand('markreadonly.setWriteable', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
 		vscode.window.showInformationMessage('setWriteable!');
+    vscode.window.activeTextEditor && setReadOnly(vscode.window.activeTextEditor.document, false);
 	});
-
+	let disposable3 = vscode.commands.registerCommand('markreadonly.toggleReadonly', () => {
+		vscode.window.showInformationMessage('toggleReadonly!');
+    vscode.window.activeTextEditor && setReadOnly(vscode.window.activeTextEditor.document, 'toggle');
+	});
 	context.subscriptions.push(disposable2, disposable1);
 
   vscode.workspace.onDidOpenTextDocument(maybeSetReadOnly);
@@ -44,8 +61,9 @@ export function activate(context: vscode.ExtensionContext) {
   function maybeSetReadOnly(doc: vscode.TextDocument) {
     let config = vscode.workspace.getConfiguration(ext);
     console.log("didOpenTextDocument:", doc.fileName);
-    //const inGlobs: string[] | undefined = config.get("include");
-    const inGlobs = [ "**/*.txt", "/settings/folder", "**/settings.json"];
+    orange.appendLine("didOpen: "+doc.fileName);
+    const inGlobs: string[] | undefined = config.get("include");
+    //const inGlobs = [ "**/*.txt", "/settings/folder", "**/settings.json"];
     console.log("markReadOnly.include:", inGlobs);
     const exGlobs: string[] | undefined = config.get("exclude");
     console.log("markReadOnly.exclude:", exGlobs);
@@ -56,18 +74,27 @@ export function activate(context: vscode.ExtensionContext) {
      }
   }
 
-  function setReadOnly(doc: vscode.TextDocument, value = true) {
+  function setReadOnly(doc: vscode.TextDocument, value: boolean | 'toggle' = true) {
     const config = vscode.workspace.getConfiguration();
     var foo = config.get('readOnly');
     //let editor0 = vscode.window.activeTextEditor;
     let editor1: vscode.TextEditor;
-    vscode.window.showTextDocument(doc).then( ved => { 
-      let editor = ved;
-      console.log("doc.fileName=", doc.fileName, "editor=", editor);
-      //let model = (editor as editorBrowser.ICodeEditor).getModel();
-      //model.updateOptions({ readOnly: value });
-     });
+    orange.appendLine("setReadOnly: "+doc.fileName);
     const editor = editorForDocument(doc);
+    console.log("doc.fileName=", doc.fileName, "editor=", editor);
+    if (!editor) {
+      vscode.window.showTextDocument(doc).then( editor => setEditorReadOnly(editor, value) );
+    } else {
+      setEditorReadOnly(editor, value);
+    }
+  }
+
+  function setEditorReadOnly(editor: vscode.TextEditor, value: boolean | 'toggle' = true) {
+    editor.options.readOnly = (value == 'toggle') ? !editor.options.readOnly : value;
+    console.log(editor.document.fileName +": readOnly="+editor.options.readOnly);
+    //let model = (editor as editorBrowser.ICodeEditor).getModel();
+    //model.updateOptions({ readOnly: value });
+
     // editorControl.getModel() => ITextModel
 		// editor?.options;
     // this._diffEditor.updateOptions({ readOnly: true });
