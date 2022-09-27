@@ -1,8 +1,8 @@
 {
   "name": "markreadonly",
-  "displayName": "MarkReadOnly",
-  "description": "Mark selected files as ReadOnly",
-  "version": "0.0.2",
+  "displayName": "Set ReadOnly",
+  "description": "Set, Clear, or Toggle ReadOnly state of file in editor.",
+  "version": "0.0.5",
   "engines": {
     "vscode": "^1.71.0"
   },
@@ -17,41 +17,18 @@
   "contributes": {
     "commands": [
       {
-        "command": "markreadonly.setWriteable",
-        "title": "set Writeable"
+        "command": "markreadonly.setReadonly",
+        "title": "Set Readonly"
       },
       {
-        "command": "markreadonly.setReadonly",
-        "title": "set ReadOnly"
+        "command": "markreadonly.clearReadonly",
+        "title": "Clear Readonly"
       },
       {
         "command": "markreadonly.toggleReadonly",
-        "title": "toggle ReadOnly"
+        "title": "toggle Readonly"
       }
-    ],
-    "configuration": {
-      "title": "MarkReadOnly",
-      "properties": {
-        "markReadOnly.include": {
-          "description": "Globs to mark as read-only",
-          "type": "array",
-          "default": null,
-          "items": {
-            "type": "string",
-            "default": null
-          }
-        },
-        "markReadOnly.exclude": {
-          "description": "Globs to *not* mark as read-only",
-          "type": "array",
-          "default": null,
-          "items": {
-            "type": "string",
-            "default": null
-          }
-        }
-      }
-    }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
