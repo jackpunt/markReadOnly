@@ -29,7 +29,7 @@ export function activate(context: vscode.ExtensionContext) {
     const inGlobs = ["/settings/folder", "**/settings.json"];
     if (inGlobs.find(glob => matchGlob(doc, glob))) { return; } // IGNORE WHEN EDITING settings.json
     const path = doc.fileName;
-    const key = 'files.readonlyPath'
+    const key = 'files.readonlyPath';
     const keys = key.split('.', 2);
     const config = vscode.workspace.getConfiguration(keys[0], null);
     const oldAry = config.get<ReadonlyPath>(keys[1]);
@@ -43,7 +43,6 @@ export function activate(context: vscode.ExtensionContext) {
    function matchGlob(document: vscode.TextDocument, glob: string) {
     return vscode.languages.match({ pattern: glob }, document) !== 0;
   }
-
 }
 
 // this method is called when your extension is deactivated
