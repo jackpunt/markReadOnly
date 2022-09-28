@@ -2,7 +2,7 @@
   "name": "markreadonly",
   "displayName": "Set ReadOnly",
   "description": "Set, Clear, or Toggle ReadOnly state of file in editor.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "repository": "https://github.com/jackpunt/markReadOnly.git",
   "engines": {
     "vscode": "^1.71.0"

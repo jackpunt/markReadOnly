@@ -4,10 +4,16 @@
         "out": false // set this to true to hide the "out" folder with the compiled JS files
     },
     "search.exclude": {
-        "out": true // set this to false to include "out" folder in search results
+        "out": false // set this to false to include "out" folder in search results
     },
     // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
     "typescript.tsc.autoDetect": "off",
-    "markReadOnly.include": [ "foo", "**/*.txt", "**/settings.json"],
-    "markReadOnly.exclude": [ "exl1", "exc2"]
+    "files.readonlyInclude": {
+        "**/*.txt": true,
+        "**/*.xrc": true,
+        "**/*.nro": true
+    },
+    "files.readonlyPath": {
+        "/Users/jpeck/Data/Programs/ts/vsc-ext/markReadOnly/test.nro": false
+    },
 }
