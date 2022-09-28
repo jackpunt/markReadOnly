@@ -25,8 +25,8 @@ Does not modify the filesystem permissions; only enables/disables the Editor fro
 ## Release Notes
 
 
-### 0.0.6
+### 0.0.7
 
-Initial release of markReadOnly.
+works with [vscode-readonly-active](https://github.com/jackpunt/vscode/tree/files-readonly-active)
 
 
