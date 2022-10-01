@@ -26,13 +26,15 @@ Does not modify the filesystem permissions; only enables/disables the Editor fro
 
 ## Release Notes
 
-Rename commnads: Set Readonly True, set Readonly False, Clear Readonly & Toggle Readonly for easier keybinding (without supplying the true|false|null|'toggle' arg)
+Restore Command: **Set Readonly** which takes an argument (value: boolean | null | 'toggle' = true)
 
-internal functions: readonlyTrue, readonlyFalse, readonlyNull, readonlyToggle
+Remove implicit keybindings; please define your own.
 
-Include keybinding for Toggle Readonly (ctrl-x ctrl-q) and Clear Readonly (ctrl-u ctrl-q)
+Rename Commands: **Set Readonly True**, **Set Readonly False**, **Clear Readonly** & **Toggle Readonly** for easier keybinding (without supplying the true|false|null|'toggle' arg)
 
-### 0.0.9
+all the Commands invoke internal function: `setReadOnly(value: boolean | null | 'toggle')`
+
+### 0.0.10
 
 Works with branch [vscode-readonly-active](https://github.com/jackpunt/vscode/tree/files-readonly-active)
 

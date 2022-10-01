@@ -11,6 +11,10 @@ type ReadonlyPath = { [path: string]: boolean | null } | undefined;
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+  /** can set value to any of true, false, null, 'toggle' */
+  let setCmdArgs = vscode.commands.registerTextEditorCommand('markreadonly.readonlySet', (editor, edit, value: boolean | null | 'toggle' = true) => {
+    setReadOnly(editor.document, value);
+  });
   let setCmdTrue = vscode.commands.registerTextEditorCommand('markreadonly.readonlyTrue', (editor) => {
     setReadOnly(editor.document, true);
   });
@@ -23,7 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
   let toggleCmd = vscode.commands.registerTextEditorCommand('markreadonly.readonlyToggle', (editor) => {
     setReadOnly(editor.document, 'toggle');
   });
-  context.subscriptions.push(setCmdTrue, setCmdFalse, clrCmd, toggleCmd);
+  context.subscriptions.push(setCmdArgs, setCmdTrue, setCmdFalse, clrCmd, toggleCmd);
 
   function setReadOnly(doc: vscode.TextDocument, value: boolean | null | 'toggle') {
     console.log(`setReadOnly: doc.fsPath=${doc.fileName}`);
