@@ -26,6 +26,8 @@ Does not modify the filesystem permissions; only enables/disables the Editor fro
 
 ## Release Notes
 
+0.0.12: fix bug that accumlates paths in settings.json readonlyPath: {}
+
 0.0.11: New version of vscode implements 'toggle' in onDidChangeConfiguration()
 Works with https://github.com/jackpunt/vscode/releases/tag/v0.0.11
 

@@ -12,7 +12,7 @@ type ReadonlyPath = { [path: string]: boolean | null | 'toggle' } | undefined;
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
   /** can set value to any of true, false, null, 'toggle' */
-  let setCmdArgs = vscode.commands.registerTextEditorCommand('markreadonly.readonlySet', (editor, edit, value: boolean | null | 'toggle' = true) => {
+  let setCmdArgs = vscode.commands.registerTextEditorCommand('markreadonly.readonlySet', (editor, edit, value: boolean | null | 'toggle') => {
     setReadOnly(editor.document, value);
   });
   let setCmdTrue = vscode.commands.registerTextEditorCommand('markreadonly.readonlyTrue', (editor) => {
@@ -29,19 +29,20 @@ export function activate(context: vscode.ExtensionContext) {
   });
   context.subscriptions.push(setCmdArgs, setCmdTrue, setCmdFalse, clrCmd, toggleCmd);
 
-  function setReadOnly(doc: vscode.TextDocument, value: boolean | null | 'toggle') {
+  function setReadOnly(doc: vscode.TextDocument, value: boolean | null | 'toggle' = 'toggle') {
     console.log(`setReadOnly: doc.fsPath=${doc.fileName}`);
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const noGlobs = { '/settings/folder': true, '**/settings.json': true };
     if (anyGlobMatches(noGlobs, doc)) { return; } // IGNORE WHEN EDITING settings.json
     const path = doc.fileName;
     const key = 'files.readonlyPath';
-    const [section, rest] = key.split('.', 2);
-    const config = vscode.workspace.getConfiguration(section, null);
-    const pathValue = config.get<ReadonlyPath>(rest) || {};
+    // const [section, rest] = key.split('.', 2);
+    // const config = vscode.workspace.getConfiguration(section, null);
+    const pathValue: ReadonlyPath = {};
     pathValue[path] = value;
+    const basename = path.split(/\/|\\/).reverse()[0];
     vscode.workspace.getConfiguration().update(key, pathValue, false); // false: WORKSPACE, true: GLOBAL
-    vscode.window.showInformationMessage(`setReadOnly: ${value}`);
+    vscode.window.showInformationMessage(`readonlyPath: { "${basename}": ${value} }`);
   }
 
   function editorForDocument(doc: vscode.TextDocument) {
