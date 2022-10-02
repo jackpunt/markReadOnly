@@ -41,7 +41,7 @@ export function activate(context: vscode.ExtensionContext) {
     const pathValue: ReadonlyPath = {};
     pathValue[path] = value;
     const basename = path.split(/\/|\\/).reverse()[0];
-    vscode.workspace.getConfiguration().update(key, pathValue, false); // false: WORKSPACE, true: GLOBAL
+    vscode.workspace.getConfiguration().update(key, pathValue, true); // false: WORKSPACE, true: GLOBAL
     vscode.window.showInformationMessage(`readonlyPath: { "${basename}": ${value} }`);
   }
 
