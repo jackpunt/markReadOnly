@@ -7,7 +7,7 @@ import * as vscode from 'vscode';
  * compile to vsix: vsce package
  * install extension from vsix [in files-readonly branch]
  */
-type ReadonlyPath = { [path: string]: boolean | null } | undefined;
+type ReadonlyPath = { [path: string]: boolean | null | 'toggle' } | undefined;
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -38,12 +38,10 @@ export function activate(context: vscode.ExtensionContext) {
     const key = 'files.readonlyPath';
     const [section, rest] = key.split('.', 2);
     const config = vscode.workspace.getConfiguration(section, null);
-    const pathValue = config.get<ReadonlyPath>(rest);
-    const oldValue = pathValue && pathValue[path];
-    const newValue = (value === 'toggle') ? !oldValue : value;
-    const keyValue: ReadonlyPath = {}; keyValue[path] = newValue;
-    vscode.workspace.getConfiguration().update(key, keyValue, false); // false: WORKSPACE, true: GLOBAL
-    vscode.window.showInformationMessage(`setReadOnly: ${value} [${oldValue} -> ${newValue}]`);
+    const pathValue = config.get<ReadonlyPath>(rest) || {};
+    pathValue[path] = value;
+    vscode.workspace.getConfiguration().update(key, pathValue, false); // false: WORKSPACE, true: GLOBAL
+    vscode.window.showInformationMessage(`setReadOnly: ${value}`);
   }
 
   function editorForDocument(doc: vscode.TextDocument) {

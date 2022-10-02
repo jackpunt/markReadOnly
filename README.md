@@ -26,6 +26,9 @@ Does not modify the filesystem permissions; only enables/disables the Editor fro
 
 ## Release Notes
 
+0.0.11: New version of vscode implements 'toggle' in onDidChangeConfiguration()
+Works with https://github.com/jackpunt/vscode/releases/tag/v0.0.11
+
 Restore Command: **Set Readonly** which takes an argument (value: boolean | null | 'toggle' = true)
 
 Remove implicit keybindings; please define your own.
@@ -34,7 +37,7 @@ Rename Commands: **Set Readonly True**, **Set Readonly False**, **Clear Readonly
 
 all the Commands invoke internal function: `setReadOnly(value: boolean | null | 'toggle')`
 
-### 0.0.10
+### 0.0.11
 
 Works with branch [vscode-readonly-active](https://github.com/jackpunt/vscode/tree/files-readonly-active)
 
