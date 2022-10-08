@@ -1,8 +1,8 @@
 {
   "name": "markreadonly",
-  "displayName": "Set ReadOnly",
-  "description": "Set, Clear, or Toggle ReadOnly state of file in editor.",
-  "version": "0.0.13",
+  "displayName": "Mark Readonly",
+  "description": "Set, Clear, or Toggle the Readonly state of the current TextEditor.",
+  "version": "0.0.14",
   "repository": "https://github.com/jackpunt/markReadOnly.git",
   "engines": {
     "vscode": "^1.71.0"
@@ -14,27 +14,26 @@
     "onStartupFinished"
   ],
   "main": "./out/markReadOnly.js",
-  "keywords": ["ReadOnly"],
+  "keywords": ["Readonly"],
   "contributes": {
     "commands": [
       {
-        "description": "set files.readonlyPath to arg value (default = true)",
-        "command": "markreadonly.readonlySet",
-        "title": "Set Readonly"
-      },
-      {
+        "description": "Mark current TextEditor as Readonly",
         "command": "markreadonly.readonlyTrue",
         "title": "Set Readonly True"
       },
       {
+        "description": "Mark current TextEditor as NOT Readonly",
         "command": "markreadonly.readonlyFalse",
         "title": "Set Readonly False"
       },
       {
+        "description": "Remove assertion of whether current TextEditor is Readonly\nReadonly determined by GlobPattern, FileSystem or the Document Provider",
         "command": "markreadonly.readonlyNull",
         "title": "Clear Readonly"
       },
       {
+        "description": "Invert whether current TextEditor is marked as Readonly",
         "command": "markreadonly.readonlyToggle",
         "title": "Toggle Readonly"
       }
